@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>QLess Queue — No Lines. Just Flow.</title>
+    <!-- Tailwind CSS + Google Fonts + Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #ffffff; overflow-x: hidden; }
+        .glass-nav { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(229,57,53,0.15); }
+        .btn-red { background: #E53935; transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .btn-red:hover { background: #c62828; transform: translateY(-2px); box-shadow: 0 12px 20px -12px rgba(229,57,53,0.5); }
+        .btn-outline-red { border: 1.5px solid #E53935; color: #E53935; transition: all 0.2s; }
+        .btn-outline-red:hover { background: #E53935; color: white; transform: translateY(-2px); }
+        .feature-card, .step-card, .mode-card, .entry-card, .smart-card, .use-card { transition: all 0.25s ease; border: 1px solid #f0f0f0; background: white; }
+        .feature-card:hover, .mode-card:hover, .entry-card:hover, .smart-card:hover, .use-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1); border-color: #ffd9d8; }
+        .step-circle { background: linear-gradient(135deg, #E53935, #c62828); }
+        .floating-demo { position: fixed; bottom: 28px; right: 28px; z-index: 50; background: #E53935; color: white; border-radius: 60px; padding: 12px 24px; font-weight: 600; box-shadow: 0 12px 20px -8px rgba(229,57,53,0.5); transition: 0.2s; cursor: pointer; border: none; }
+        .floating-demo:hover { transform: scale(1.02); background: #c62828; }
+        .gradient-bg { background: radial-gradient(circle at 10% 20%, rgba(229,57,53,0.03) 0%, rgba(255,255,255,0) 70%); }
+        .step-connector { position: relative; }
+        @media (min-width: 768px) {
+            .step-connector:not(:last-child):after {
+                content: '';
+                position: absolute;
+                top: 40px;
+                right: -20%;
+                width: 40%;
+                height: 2px;
+                background: linear-gradient(90deg, #E53935, #ffb3b0);
+                border-radius: 4px;
+            }
+        }
+        .queue-mockup { background: linear-gradient(145deg, #f8fafc, #ffffff); }
+        .badge-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- Sticky Navbar -->
+<nav class="fixed top-0 left-0 w-full z-50 glass-nav py-4 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <i class="fas fa-hourglass-half text-2xl text-red-600"></i>
+            <span class="font-bold text-2xl tracking-tight text-gray-800">QLess <span class="text-red-600">Queue</span></span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8 text-gray-700 font-medium">
+            <a href="#how-it-works" class="hover:text-red-600 transition">How it works</a>
+            <a href="#modes" class="hover:text-red-600 transition">Queue modes</a>
+            <a href="#join" class="hover:text-red-600 transition">Join anywhere</a>
+            <a href="#features" class="hover:text-red-600 transition">Smart features</a>
+            <a href="#" class="btn-outline-red px-5 py-2 rounded-full text-sm font-semibold">Log in</a>
+            <a href="#" class="btn-red px-5 py-2 rounded-full text-white text-sm font-semibold shadow-md">Book Demo</a>
+        </div>
+        <button id="menuBtn" class="md:hidden text-2xl text-gray-700"><i class="fas fa-bars"></i></button>
+    </div>
+    <div id="mobileMenu" class="md:hidden bg-white/95 backdrop-blur-lg rounded-2xl mt-3 mx-4 overflow-hidden transition-all duration-300 max-h-0 opacity-0 invisible shadow-xl">
+        <div class="flex flex-col space-y-4 p-5">
+            <a href="#how-it-works" class="hover:text-red-600 font-medium">How it works</a>
+            <a href="#modes" class="hover:text-red-600 font-medium">Queue modes</a>
+            <a href="#join" class="hover:text-red-600 font-medium">Join anywhere</a>
+            <a href="#features" class="hover:text-red-600 font-medium">Smart features</a>
+            <hr><a href="#" class="btn-outline-red text-center py-2 rounded-full">Log in</a>
+            <a href="#" class="btn-red text-center py-2 rounded-full text-white">Book Demo</a>
+        </div>
+    </div>
+</nav>
+
+<button id="floatingDemoBtn" class="floating-demo flex items-center gap-2"><i class="fas fa-calendar-alt"></i> Book Demo</button>
+
+<main>
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 md:px-12 gradient-bg overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+            <div class="flex-1 text-center lg:text-left" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 bg-red-50 rounded-full px-4 py-1.5 text-red-600 text-sm font-semibold mb-6"><i class="fas fa-bolt"></i> Smart Queue Management</div>
+                <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">No Lines.<br>Just <span class="text-red-600">Flow</span>.</h1>
+                <p class="text-xl text-gray-500 mt-6 max-w-xl mx-auto lg:mx-0">Customers can join your queue via walk-in, booking, or hybrid mode. Real-time updates, automated flow, and zero frustration.</p>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-8">
+                    <a href="#" class="btn-red px-8 py-3 rounded-full text-white font-semibold shadow-lg flex items-center gap-2"><i class="fas fa-calendar-check"></i> Book Demo</a>
+                    <a href="#how-it-works" class="btn-outline-red px-8 py-3 rounded-full font-semibold flex items-center gap-2"><i class="fas fa-play-circle"></i> See How It Works</a>
+                </div>
+                <div class="flex items-center gap-3 justify-center lg:justify-start mt-6 text-sm text-gray-400"><i class="fas fa-check-circle text-red-500"></i> Used by 500+ venues · 98% satisfaction rate</div>
+            </div>
+            <div class="flex-1 relative" data-aos="fade-left">
+                <div class="queue-mockup rounded-3xl p-6 shadow-2xl bg-white border border-gray-100">
+                    <div class="bg-red-50 rounded-2xl p-4">
+                        <div class="flex justify-between items-center"><span class="font-bold text-gray-700">Current queue status</span><span class="text-xs bg-white px-2 py-1 rounded-full text-red-600">Live</span></div>
+                        <div class="mt-3 space-y-2"><div class="flex justify-between"><span>👤 You are #4</span><span class="text-red-600 font-mono">~6 min wait</span></div><div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-red-600 h-2 rounded-full w-1/3"></div></div></div>
+                        <div class="mt-4 text-sm text-gray-500"><i class="fas fa-bell text-red-500"></i> SMS notification when your turn is near</div>
+                    </div>
+                </div>
+                <div class="absolute -bottom-5 -left-5 w-32 h-32 bg-red-100 rounded-full blur-2xl -z-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works (4 steps) -->
+    <section id="how-it-works" class="py-24 px-6 md:px-12 bg-white">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-600 font-semibold text-sm uppercase">simple flow</span><h2 class="text-4xl md:text-5xl font-bold mt-2">From queue to service in 4 steps</h2><p class="text-gray-500 mt-3">Seamless experience for customers and staff</p></div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto mt-16 relative">
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="100"><div class="step-circle w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center text-2xl font-bold mx-auto shadow-lg">1</div><h3 class="font-bold text-xl mt-4">Customer Joins Queue</h3><p class="text-gray-500 text-sm mt-1">Walk-in, kiosk, mobile, or WhatsApp</p></div>
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="150"><div class="step-circle w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center text-2xl font-bold mx-auto shadow-lg">2</div><h3 class="font-bold text-xl mt-4">Receives Live Updates</h3><p class="text-gray-500 text-sm mt-1">SMS, WhatsApp, or app notifications</p></div>
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="200"><div class="step-circle w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center text-2xl font-bold mx-auto shadow-lg">3</div><h3 class="font-bold text-xl mt-4">Staff Manages Flow</h3><p class="text-gray-500 text-sm mt-1">Dashboard controls, priority handling</p></div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="250"><div class="step-circle w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center text-2xl font-bold mx-auto shadow-lg">4</div><h3 class="font-bold text-xl mt-4">Customer Gets Served</h3><p class="text-gray-500 text-sm mt-1">Fast, predictable, and frictionless</p></div>
+        </div>
+    </section>
+
+    <!-- Queue Modes (3 Feature Cards) -->
+    <section id="modes" class="py-24 bg-gray-50 px-6 md:px-12">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-600 font-semibold text-sm uppercase">flexible by design</span><h2 class="text-4xl font-bold mt-2">Three powerful queue modes</h2><p class="text-gray-500 mt-3">Choose what fits your business — or combine them</p></div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-16">
+            <div class="mode-card rounded-3xl p-8 bg-white" data-aos="flip-left" data-aos-delay="100"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-5"><i class="fas fa-walking text-2xl text-red-600"></i></div><h3 class="text-2xl font-bold">Instant Queue</h3><p class="text-gray-500 mt-2">First come, first serve. Customers join instantly, see their position, and get notified when it's their turn. Perfect for retail and fast-paced venues.</p><div class="mt-3 text-sm text-red-600 font-semibold"><i class="fas fa-chart-line"></i> Live position tracking</div></div>
+            <div class="mode-card rounded-3xl p-8 bg-white" data-aos="flip-left" data-aos-delay="200"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-5"><i class="fas fa-calendar-week text-2xl text-red-600"></i></div><h3 class="text-2xl font-bold">Booking Queue</h3><p class="text-gray-500 mt-2">Time-slot based. Customers book a specific time, reducing wait time to zero. Ideal for clinics, consultations, and appointments.</p><div class="mt-3 text-sm text-red-600 font-semibold"><i class="fas fa-clock"></i> Predictable customer flow</div></div>
+            <div class="mode-card rounded-3xl p-8 bg-white" data-aos="flip-left" data-aos-delay="300"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-5"><i class="fas fa-brain text-2xl text-red-600"></i></div><h3 class="text-2xl font-bold">Hybrid Queue</h3><p class="text-gray-500 mt-2">Combines walk-ins + bookings with AI-powered prioritization. VIP handling, slot reservations, and dynamic adjustments in real time.</p><div class="mt-3 text-sm text-red-600 font-semibold"><i class="fas fa-crown"></i> VIP / priority handling</div></div>
+        </div>
+    </section>
+
+    <!-- Join From Anywhere -->
+    <section id="join" class="py-24 px-6 md:px-12 bg-white">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-600 font-semibold text-sm uppercase">omnichannel entry</span><h2 class="text-4xl font-bold mt-2">Join the queue from anywhere</h2><p class="text-gray-500 mt-3">Multiple touchpoints to eliminate physical lines</p></div>
+        <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mt-16">
+            <div class="entry-card rounded-2xl p-6 text-center border" data-aos="zoom-in"><div class="bg-red-50 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-qrcode text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Mobile (QR/Link)</h3><p class="text-gray-500 text-sm">Scan QR code or click link — instant join</p></div>
+            <div class="entry-card rounded-2xl p-6 text-center border" data-aos="zoom-in" data-aos-delay="100"><div class="bg-red-50 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-microchip text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Smart Kiosk</h3><p class="text-gray-500 text-sm">Self-service touchscreen on location</p></div>
+            <div class="entry-card rounded-2xl p-6 text-center border" data-aos="zoom-in" data-aos-delay="200"><div class="bg-red-50 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-user-check text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Staff-Assisted</h3><p class="text-gray-500 text-sm">Front desk check-in for non-digital users</p></div>
+            <div class="entry-card rounded-2xl p-6 text-center border" data-aos="zoom-in" data-aos-delay="300"><div class="bg-red-50 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fab fa-whatsapp text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">WhatsApp Integration</h3><p class="text-gray-500 text-sm">Join & get updates via WhatsApp chat</p></div>
+        </div>
+    </section>
+
+    <!-- Smart Features Grid -->
+    <section id="features" class="py-24 bg-gray-50 px-6 md:px-12">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-600 font-semibold text-sm uppercase">intelligent by nature</span><h2 class="text-4xl font-bold mt-2">Smart features for modern queues</h2><p class="text-gray-500 mt-3">Powered by real-time data and automation</p></div>
+        <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-16">
+            <div class="smart-card rounded-2xl p-6 bg-white flex gap-4 items-start" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-chart-line text-3xl text-red-500"></i><div><h4 class="font-bold">Real-time queue tracking</h4><p class="text-gray-500 text-sm">Live dashboard with customer count, wait times, and service speed.</p></div></div>
+            <div class="smart-card rounded-2xl p-6 bg-white flex gap-4 items-start" data-aos="fade-up" data-aos-delay="150"><i class="fas fa-bell text-3xl text-red-500"></i><div><h4 class="font-bold">SMS / WhatsApp alerts</h4><p class="text-gray-500 text-sm">Automatic notifications when it's almost your turn.</p></div></div>
+            <div class="smart-card rounded-2xl p-6 bg-white flex gap-4 items-start" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-hourglass-half text-3xl text-red-500"></i><div><h4 class="font-bold">Estimated wait times</h4><p class="text-gray-500 text-sm">AI-powered predictions that improve over time.</p></div></div>
+            <div class="smart-card rounded-2xl p-6 bg-white flex gap-4 items-start" data-aos="fade-up" data-aos-delay="250"><i class="fas fa-tachometer-alt text-3xl text-red-500"></i><div><h4 class="font-bold">Staff dashboard controls</h4><p class="text-gray-500 text-sm">Call next, pause queue, reassign counters, manage VIPs.</p></div></div>
+            <div class="smart-card rounded-2xl p-6 bg-white flex gap-4 items-start" data-aos="fade-up" data-aos-delay="300"><i class="fas fa-store text-3xl text-red-500"></i><div><h4 class="font-bold">Multi-location support</h4><p class="text-gray-500 text-sm">Centralized management for franchises and chains.</p></div></div>
+            <div class="smart-card rounded-2xl p-6 bg-white flex gap-4 items-start" data-aos="fade-up" data-aos-delay="350"><i class="fas fa-chart-pie text-3xl text-red-500"></i><div><h4 class="font-bold">Analytics & insights</h4><p class="text-gray-500 text-sm">Peak hours, service time reports, customer satisfaction.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Use Cases Grid -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-600 font-semibold text-sm uppercase">perfect for</span><h2 class="text-4xl font-bold mt-2">Trusted by diverse industries</h2></div>
+        <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mt-16">
+            <div class="use-card rounded-2xl p-6 text-center border" data-aos="zoom-in"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-cut text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Salons & Spas</h3><p class="text-gray-500 text-sm">Appointment + walk-in hybrid</p></div>
+            <div class="use-card rounded-2xl p-6 text-center border" data-aos="zoom-in" data-aos-delay="100"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-hospital-user text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Clinics</h3><p class="text-gray-500 text-sm">Patient flow & check-in kiosks</p></div>
+            <div class="use-card rounded-2xl p-6 text-center border" data-aos="zoom-in" data-aos-delay="200"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-landmark text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Government</h3><p class="text-gray-500 text-sm">DMV, permits, social services</p></div>
+            <div class="use-card rounded-2xl p-6 text-center border" data-aos="zoom-in" data-aos-delay="300"><div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-utensils text-2xl text-red-600"></i></div><h3 class="font-bold text-lg">Restaurants</h3><p class="text-gray-500 text-sm">Waitlist & table management</p></div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-28 px-6 bg-gradient-to-r from-red-600 to-red-700 text-white">
+        <div class="max-w-4xl mx-auto text-center" data-aos="zoom-in-up"><h2 class="text-4xl md:text-5xl font-bold">Take Control of Your Queue Today</h2><p class="text-xl text-red-100 mt-4">Stop losing customers to long lines. Start delivering a seamless flow.</p><button class="mt-8 bg-white text-red-600 px-8 py-3 rounded-full font-bold shadow-xl hover:shadow-2xl transition flex items-center gap-2 mx-auto"><i class="fas fa-calendar-check"></i> Book Demo</button></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
+            <div><div class="flex items-center gap-2"><i class="fas fa-hourglass-half text-2xl text-red-500"></i><span class="font-bold text-2xl text-white">QLess Queue</span></div><p class="text-sm mt-4">The smartest queue management platform in South Africa.</p><div class="flex gap-4 mt-6"><i class="fab fa-twitter text-xl hover:text-red-500 cursor-pointer"></i><i class="fab fa-instagram text-xl hover:text-red-500 cursor-pointer"></i><i class="fab fa-linkedin text-xl hover:text-red-500 cursor-pointer"></i></div></div>
+            <div><h4 class="font-semibold text-white">Product</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="#modes">Queue modes</a></li><li><a href="#join">Join anywhere</a></li><li><a href="#">WhatsApp queue</a></li><li><a href="#">Kiosk solution</a></li></ul></div>
+            <div><h4 class="font-semibold text-white">Company</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="#">About QLess</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+            <div><h4 class="font-semibold text-white">Support</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="#">Contact sales</a></li><li><a href="#">Documentation</a></li><li><a href="#">API status</a></li></ul></div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-6 text-center text-sm">© 2025 QLess Queue Management — No lines. Just flow.</div>
+    </footer>
+</main>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true, offset: 100 });
+    
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+        if(mobileMenu.classList.contains('max-h-0')) {
+            mobileMenu.classList.remove('max-h-0', 'opacity-0', 'invisible');
+            mobileMenu.classList.add('max-h-96', 'opacity-100', 'visible');
+        } else {
+            mobileMenu.classList.add('max-h-0', 'opacity-0', 'invisible');
+            mobileMenu.classList.remove('max-h-96', 'opacity-100', 'visible');
+        }
+    });
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('max-h-0', 'opacity-0', 'invisible');
+            mobileMenu.classList.remove('max-h-96', 'opacity-100', 'visible');
+        });
+    });
+    
+    const demoFloat = document.getElementById('floatingDemoBtn');
+    demoFloat?.addEventListener('click', () => alert("✨ Book a demo — QLess queue experts will contact you within 24h."));
+    document.querySelectorAll('.btn-red, .btn-outline-red').forEach(btn => {
+        if(btn.innerText.includes('Demo') || btn.innerText.includes('Book Demo')) btn.addEventListener('click', (e) => { e.preventDefault(); alert("📅 Demo scheduled — Let's eliminate queues together!"); });
+        if(btn.innerText.includes('See How It Works')) btn.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#how-it-works')?.scrollIntoView({ behavior: 'smooth' }); });
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if(href === "#" || href === "" || href.includes('.html')) return;
+            const target = document.querySelector(href);
+            if(target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+</script>
+</body>
+</html>

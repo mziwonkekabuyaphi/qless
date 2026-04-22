@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>QLess Shisha OS — Total Control for Your Lounge</title>
+    <!-- Tailwind CSS + Google Fonts + Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #0a0a0f; overflow-x: hidden; }
+        .glass-nav { background: rgba(10, 10, 15, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(229,57,53,0.25); }
+        .btn-red { background: #E53935; transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .btn-red:hover { background: #c62828; transform: translateY(-2px); box-shadow: 0 12px 25px -8px rgba(229,57,53,0.6); }
+        .btn-outline-red { border: 1.5px solid #E53935; color: #E53935; transition: all 0.2s; background: transparent; }
+        .btn-outline-red:hover { background: #E53935; color: white; transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(229,57,53,0.4); }
+        .feature-card, .pillar-card, .step-card, .use-card { transition: all 0.3s ease; border: 1px solid rgba(229,57,53,0.2); background: rgba(15, 15, 22, 0.8); backdrop-filter: blur(4px); }
+        .feature-card:hover, .pillar-card:hover, .use-card:hover { transform: translateY(-6px); border-color: #E53935; box-shadow: 0 20px 35px -12px rgba(229,57,53,0.25); background: rgba(20, 20, 30, 0.95); }
+        .step-circle { background: linear-gradient(135deg, #E53935, #b71c1c); box-shadow: 0 0 15px rgba(229,57,53,0.5); }
+        .floating-demo { position: fixed; bottom: 28px; right: 28px; z-index: 50; background: #E53935; color: white; border-radius: 60px; padding: 12px 24px; font-weight: 600; box-shadow: 0 12px 25px -8px rgba(229,57,53,0.6); transition: 0.2s; cursor: pointer; border: none; }
+        .floating-demo:hover { transform: scale(1.02); background: #c62828; box-shadow: 0 15px 30px -8px rgba(229,57,53,0.8); }
+        .gradient-bg { background: radial-gradient(circle at 20% 30%, rgba(229,57,53,0.08) 0%, rgba(10,10,15,0) 70%); }
+        .step-connector { position: relative; }
+        @media (min-width: 768px) {
+            .step-connector:not(:last-child):after {
+                content: '';
+                position: absolute;
+                top: 40px;
+                right: -20%;
+                width: 40%;
+                height: 2px;
+                background: linear-gradient(90deg, #E53935, #ff6b6b);
+                border-radius: 4px;
+                box-shadow: 0 0 6px rgba(229,57,53,0.5);
+            }
+        }
+        .glow-text { text-shadow: 0 0 10px rgba(229,57,53,0.3); }
+        .pillar-icon { background: rgba(229,57,53,0.15); box-shadow: 0 0 12px rgba(229,57,53,0.2); }
+        .badge-glow { background: rgba(229,57,53,0.2); color: #E53935; border: 1px solid rgba(229,57,53,0.4); }
+        .monitor-card { background: linear-gradient(145deg, #0f0f16, #0a0a0f); border-left: 3px solid #E53935; }
+        hr { border-color: rgba(229,57,53,0.2); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a24; }
+        ::-webkit-scrollbar-thumb { background: #E53935; border-radius: 10px; }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- Sticky Navbar -->
+<nav class="fixed top-0 left-0 w-full z-50 glass-nav py-4 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <i class="fas fa-smoking text-2xl text-red-500"></i>
+            <span class="font-bold text-2xl tracking-tight text-white">QLess <span class="text-red-500">ShishaOS</span></span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8 text-gray-300 font-medium">
+            <a href="#solution" class="hover:text-red-500 transition">Solution</a>
+            <a href="#how-it-works" class="hover:text-red-500 transition">How it works</a>
+            <a href="#features" class="hover:text-red-500 transition">Features</a>
+            <a href="#use-cases" class="hover:text-red-500 transition">Use cases</a>
+            <a href="#" class="btn-outline-red px-5 py-2 rounded-full text-sm font-semibold">Log in</a>
+            <a href="#" class="btn-red px-5 py-2 rounded-full text-white text-sm font-semibold shadow-md">Book Demo</a>
+        </div>
+        <button id="menuBtn" class="md:hidden text-2xl text-white"><i class="fas fa-bars"></i></button>
+    </div>
+    <div id="mobileMenu" class="md:hidden bg-[#0f0f16]/95 backdrop-blur-lg rounded-2xl mt-3 mx-4 overflow-hidden transition-all duration-300 max-h-0 opacity-0 invisible shadow-xl border border-red-500/20">
+        <div class="flex flex-col space-y-4 p-5">
+            <a href="#solution" class="hover:text-red-500 font-medium text-white">Solution</a>
+            <a href="#how-it-works" class="hover:text-red-500 font-medium text-white">How it works</a>
+            <a href="#features" class="hover:text-red-500 font-medium text-white">Features</a>
+            <a href="#use-cases" class="hover:text-red-500 font-medium text-white">Use cases</a>
+            <hr class="border-red-500/20"><a href="#" class="btn-outline-red text-center py-2 rounded-full">Log in</a>
+            <a href="#" class="btn-red text-center py-2 rounded-full text-white">Book Demo</a>
+        </div>
+    </div>
+</nav>
+
+<button id="floatingDemoBtn" class="floating-demo flex items-center gap-2"><i class="fas fa-calendar-alt"></i> Book Demo</button>
+
+<main>
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 md:px-12 gradient-bg overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+            <div class="flex-1 text-center lg:text-left" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 bg-red-500/10 rounded-full px-4 py-1.5 text-red-400 text-sm font-semibold mb-6 border border-red-500/30"><i class="fas fa-crown"></i> Premium Nightlife OS</div>
+                <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">Total Control for Your <span class="text-red-500 glow-text">Shisha Lounge</span></h1>
+                <p class="text-xl text-gray-400 mt-6 max-w-xl mx-auto lg:mx-0">Complete operations system — orders, staff tracking, live pipe monitoring, and real-time alerts. Run your lounge like a pro.</p>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-8">
+                    <a href="#" class="btn-red px-8 py-3 rounded-full text-white font-semibold shadow-lg flex items-center gap-2"><i class="fas fa-calendar-check"></i> Book Demo</a>
+                    <a href="#solution" class="btn-outline-red px-8 py-3 rounded-full font-semibold flex items-center gap-2"><i class="fas fa-rocket"></i> Upgrade My Lounge</a>
+                </div>
+                <div class="flex items-center gap-3 justify-center lg:justify-start mt-6 text-sm text-gray-500"><i class="fas fa-check-circle text-red-500"></i> Trusted by 200+ lounges · 40% faster service</div>
+            </div>
+            <div class="flex-1 relative" data-aos="fade-left">
+                <div class="bg-gradient-to-br from-red-900/20 to-transparent rounded-3xl p-1">
+                    <div class="bg-[#0f0f16] rounded-3xl p-6 shadow-2xl border border-red-500/30">
+                        <div class="flex justify-between items-center"><span class="text-white font-bold"><i class="fas fa-chart-line text-red-500"></i> Live dashboard</span><span class="text-xs text-red-400 animate-pulse">● LIVE</span></div>
+                        <div class="mt-4 grid grid-cols-2 gap-3"><div class="bg-black/40 p-3 rounded-xl"><div class="text-gray-400 text-xs">Active pipes</div><div class="text-white text-xl font-bold">12</div></div><div class="bg-black/40 p-3 rounded-xl"><div class="text-gray-400 text-xs">Tables occupied</div><div class="text-white text-xl font-bold">8/15</div></div></div>
+                        <div class="mt-3 bg-black/40 rounded-xl p-3"><div class="text-gray-400 text-xs">⏳ Coal change alert — Table 4</div><div class="text-red-400 text-sm font-mono mt-1">⚠️ 2 min remaining</div></div>
+                    </div>
+                </div>
+                <div class="absolute -bottom-5 -left-5 w-40 h-40 bg-red-600/20 rounded-full blur-3xl -z-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 px-6 md:px-12 bg-[#0a0a0f] border-y border-red-500/10">
+        <div class="max-w-5xl mx-auto text-center" data-aos="fade-up">
+            <span class="text-red-500 font-semibold text-sm uppercase">the struggle is real</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mt-2">Running a lounge shouldn't be chaotic</h2>
+            <div class="grid md:grid-cols-4 gap-5 mt-12">
+                <div class="bg-red-500/5 p-5 rounded-2xl border border-red-500/20"><i class="fas fa-hourglass-half text-3xl text-red-500 mb-3"></i><h4 class="font-bold text-white">Slow service</h4><p class="text-gray-400 text-sm">Customers wait too long for shisha</p></div>
+                <div class="bg-red-500/5 p-5 rounded-2xl border border-red-500/20"><i class="fas fa-user-slash text-3xl text-red-500 mb-3"></i><h4 class="font-bold text-white">Missed customers</h4><p class="text-gray-400 text-sm">Walk-aways due to long queues</p></div>
+                <div class="bg-red-500/5 p-5 rounded-2xl border border-red-500/20"><i class="fas fa-fire-extinguisher text-3xl text-red-500 mb-3"></i><h4 class="font-bold text-white">Poor pipe tracking</h4><p class="text-gray-400 text-sm">No visibility on coal changes</p></div>
+                <div class="bg-red-500/5 p-5 rounded-2xl border border-red-500/20"><i class="fas fa-eye-slash text-3xl text-red-500 mb-3"></i><h4 class="font-bold text-white">No visibility</h4><p class="text-gray-400 text-sm">Blind to staff performance</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Overview (3 Pillars) -->
+    <section id="solution" class="py-24 px-6 md:px-12">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-500 font-semibold text-sm uppercase">the qless difference</span><h2 class="text-4xl md:text-5xl font-bold text-white mt-2">Three pillars of lounge control</h2></div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-16">
+            <div class="pillar-card rounded-3xl p-8" data-aos="flip-left" data-aos-delay="100"><div class="pillar-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-5"><i class="fas fa-cash-register text-2xl text-red-500"></i></div><h3 class="text-2xl font-bold text-white">Orders & Sales</h3><p class="text-gray-400 mt-2">Shisha POS with table-based ordering, split bills, and wallet ordering — customers order from their phone without staff intervention.</p><div class="mt-3 text-sm text-red-400"><i class="fas fa-mobile-alt"></i> Table-side + mobile ordering</div></div>
+            <div class="pillar-card rounded-3xl p-8" data-aos="flip-left" data-aos-delay="200"><div class="pillar-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-5"><i class="fas fa-users text-2xl text-red-500"></i></div><h3 class="text-2xl font-bold text-white">Staff & Operations</h3><p class="text-gray-400 mt-2">Staff dashboard, role management, table assignments, and performance tracking. Know exactly who is serving which table.</p><div class="mt-3 text-sm text-red-400"><i class="fas fa-chart-simple"></i> Real-time staff productivity</div></div>
+            <div class="pillar-card rounded-3xl p-8" data-aos="flip-left" data-aos-delay="300"><div class="pillar-icon w-16 h-16 rounded-2xl flex items-center justify-center mb-5"><i class="fas fa-smoking text-2xl text-red-500"></i></div><h3 class="text-2xl font-bold text-white">Live Shisha Monitoring</h3><p class="text-gray-400 mt-2">Real-time pipe tracking, refill alerts, coal change notifications, and timer per pipe. Never let a pipe die unnoticed.</p><div class="mt-3 text-sm text-red-400"><i class="fas fa-bell"></i> Smart alerts for every hookah</div></div>
+        </div>
+    </section>
+
+    <!-- How It Works (Flow) -->
+    <section id="how-it-works" class="py-24 bg-[#0f0f16] px-6 md:px-12">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-500 font-semibold text-sm uppercase">seamless workflow</span><h2 class="text-4xl md:text-5xl font-bold text-white mt-2">From arrival to happy customer</h2></div>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-6 max-w-6xl mx-auto mt-16">
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="100"><div class="step-circle w-14 h-14 rounded-full text-white flex items-center justify-center text-xl font-bold mx-auto shadow-lg">1</div><p class="text-gray-300 text-sm mt-2">Customer sits</p></div>
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="150"><div class="step-circle w-14 h-14 rounded-full text-white flex items-center justify-center text-xl font-bold mx-auto shadow-lg">2</div><p class="text-gray-300 text-sm mt-2">Orders via POS/wallet</p></div>
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="200"><div class="step-circle w-14 h-14 rounded-full text-white flex items-center justify-center text-xl font-bold mx-auto shadow-lg">3</div><p class="text-gray-300 text-sm mt-2">Order processed</p></div>
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="250"><div class="step-circle w-14 h-14 rounded-full text-white flex items-center justify-center text-xl font-bold mx-auto shadow-lg">4</div><p class="text-gray-300 text-sm mt-2">Shisha prepared</p></div>
+            <div class="step-connector text-center" data-aos="fade-up" data-aos-delay="300"><div class="step-circle w-14 h-14 rounded-full text-white flex items-center justify-center text-xl font-bold mx-auto shadow-lg">5</div><p class="text-gray-300 text-sm mt-2">Live monitoring tracks</p></div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="350"><div class="step-circle w-14 h-14 rounded-full text-white flex items-center justify-center text-xl font-bold mx-auto shadow-lg">6</div><p class="text-gray-300 text-sm mt-2">Staff responds to alerts</p></div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="py-24 px-6 md:px-12">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-500 font-semibold text-sm uppercase">powerful toolkit</span><h2 class="text-4xl md:text-5xl font-bold text-white mt-2">Everything you need to scale</h2></div>
+        <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-16">
+            <div class="feature-card rounded-2xl p-6 flex gap-4 items-start" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-table text-3xl text-red-500"></i><div><h4 class="font-bold text-white">Table management</h4><p class="text-gray-400 text-sm">Visual floor plan, table status, and occupancy tracking.</p></div></div>
+            <div class="feature-card rounded-2xl p-6 flex gap-4 items-start" data-aos="fade-up" data-aos-delay="150"><i class="fas fa-chart-line text-3xl text-red-500"></i><div><h4 class="font-bold text-white">Real-time monitoring</h4><p class="text-gray-400 text-sm">Live pipe timers, coal change countdowns, refill alerts.</p></div></div>
+            <div class="feature-card rounded-2xl p-6 flex gap-4 items-start" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-user-clock text-3xl text-red-500"></i><div><h4 class="font-bold text-white">Staff tracking</h4><p class="text-gray-400 text-sm">Performance metrics, task assignment, and shift management.</p></div></div>
+            <div class="feature-card rounded-2xl p-6 flex gap-4 items-start" data-aos="fade-up" data-aos-delay="250"><i class="fas fa-wallet text-3xl text-red-500"></i><div><h4 class="font-bold text-white">Customer wallet</h4><p class="text-gray-400 text-sm">Loyalty points, cashless payments, and faster checkout.</p></div></div>
+            <div class="feature-card rounded-2xl p-6 flex gap-4 items-start" data-aos="fade-up" data-aos-delay="300"><i class="fas fa-chart-simple text-3xl text-red-500"></i><div><h4 class="font-bold text-white">Upselling tools</h4><p class="text-gray-400 text-sm">Automated suggestions for flavors, drinks, and upgrades.</p></div></div>
+            <div class="feature-card rounded-2xl p-6 flex gap-4 items-start" data-aos="fade-up" data-aos-delay="350"><i class="fas fa-chart-pie text-3xl text-red-500"></i><div><h4 class="font-bold text-white">Analytics dashboard</h4><p class="text-gray-400 text-sm">Revenue reports, peak hours, popular flavors.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section id="use-cases" class="py-24 bg-[#0f0f16] px-6 md:px-12">
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up"><span class="text-red-500 font-semibold text-sm uppercase">built for nightlife</span><h2 class="text-4xl md:text-5xl font-bold text-white mt-2">Perfect for every venue</h2></div>
+        <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mt-16">
+            <div class="use-card rounded-2xl p-6 text-center" data-aos="zoom-in"><div class="bg-red-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-smoking-ban text-2xl text-red-500"></i></div><h3 class="font-bold text-white text-lg">Shisha Lounges</h3><p class="text-gray-400 text-sm">Full operations + pipe tracking</p></div>
+            <div class="use-card rounded-2xl p-6 text-center" data-aos="zoom-in" data-aos-delay="100"><div class="bg-red-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-music text-2xl text-red-500"></i></div><h3 class="font-bold text-white text-lg">Nightclubs</h3><p class="text-gray-400 text-sm">Guest flow + bottle service</p></div>
+            <div class="use-card rounded-2xl p-6 text-center" data-aos="zoom-in" data-aos-delay="200"><div class="bg-red-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-crown text-2xl text-red-500"></i></div><h3 class="font-bold text-white text-lg">VIP Sections</h3><p class="text-gray-400 text-sm">Exclusive area management</p></div>
+            <div class="use-card rounded-2xl p-6 text-center" data-aos="zoom-in" data-aos-delay="300"><div class="bg-red-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-wine-bottle text-2xl text-red-500"></i></div><h3 class="font-bold text-white text-lg">Bars</h3><p class="text-gray-400 text-sm">Order & tab management</p></div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-28 px-6 bg-gradient-to-r from-red-700/90 to-red-900/90">
+        <div class="max-w-4xl mx-auto text-center" data-aos="zoom-in-up"><h2 class="text-4xl md:text-5xl font-bold text-white">Run Your Lounge Smarter</h2><p class="text-xl text-red-100 mt-4">Join the lounges that eliminated chaos and increased revenue by 35%.</p><button class="mt-8 bg-white text-red-700 px-8 py-3 rounded-full font-bold shadow-xl hover:shadow-2xl transition flex items-center gap-2 mx-auto"><i class="fas fa-calendar-check"></i> Book Demo</button></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050508] text-gray-400 pt-16 pb-8 px-6 border-t border-red-500/10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
+            <div><div class="flex items-center gap-2"><i class="fas fa-smoking text-2xl text-red-500"></i><span class="font-bold text-2xl text-white">QLess ShishaOS</span></div><p class="text-sm mt-4">The ultimate operating system for modern lounges.</p><div class="flex gap-4 mt-6"><i class="fab fa-twitter text-xl hover:text-red-500 cursor-pointer"></i><i class="fab fa-instagram text-xl hover:text-red-500 cursor-pointer"></i><i class="fab fa-linkedin text-xl hover:text-red-500 cursor-pointer"></i></div></div>
+            <div><h4 class="font-semibold text-white">Product</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="#solution" class="hover:text-red-400">Shisha POS</a></li><li><a href="#features" class="hover:text-red-400">Live monitoring</a></li><li><a href="#">Staff tools</a></li><li><a href="#">Wallet integration</a></li></ul></div>
+            <div><h4 class="font-semibold text-white">Company</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="#">About QLess</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+            <div><h4 class="font-semibold text-white">Support</h4><ul class="mt-4 space-y-2 text-sm"><li><a href="#">Contact sales</a></li><li><a href="#">Documentation</a></li><li><a href="#">API status</a></li></ul></div>
+        </div>
+        <div class="border-t border-red-500/10 mt-12 pt-6 text-center text-sm">© 2025 QLess ShishaOS — Total control for your lounge. Premium nightlife operations.</div>
+    </footer>
+</main>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true, offset: 100 });
+    
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+        if(mobileMenu.classList.contains('max-h-0')) {
+            mobileMenu.classList.remove('max-h-0', 'opacity-0', 'invisible');
+            mobileMenu.classList.add('max-h-96', 'opacity-100', 'visible');
+        } else {
+            mobileMenu.classList.add('max-h-0', 'opacity-0', 'invisible');
+            mobileMenu.classList.remove('max-h-96', 'opacity-100', 'visible');
+        }
+    });
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('max-h-0', 'opacity-0', 'invisible');
+            mobileMenu.classList.remove('max-h-96', 'opacity-100', 'visible');
+        });
+    });
+    
+    const demoFloat = document.getElementById('floatingDemoBtn');
+    demoFloat?.addEventListener('click', () => alert("✨ Book a demo — QLess ShishaOS experts will contact you within 24h."));
+    document.querySelectorAll('.btn-red, .btn-outline-red').forEach(btn => {
+        if(btn.innerText.includes('Demo') || btn.innerText.includes('Book Demo')) btn.addEventListener('click', (e) => { e.preventDefault(); alert("📅 Demo scheduled — Let's upgrade your lounge operations!"); });
+        if(btn.innerText.includes('Upgrade My Lounge')) btn.addEventListener('click', (e) => { e.preventDefault(); alert("🚀 Ready to upgrade? Our team will help you migrate to QLess ShishaOS."); });
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if(href === "#" || href === "" || href.includes('.html')) return;
+            const target = document.querySelector(href);
+            if(target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+</script>
+</body>
+</html>
